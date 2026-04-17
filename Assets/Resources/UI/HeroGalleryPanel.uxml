@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements">
+    
+    <!-- 修复点 1：使用相对路径引入 USS -->
+    <ui:Style src="Styles/HeroGalleryStyle.uss"/>
+
+    <!-- 根节点设置为横向布局 -->
+    <ui:VisualElement class="gallery-root">
+        
+        <!-- 左侧菜单栏 -->
+        <ui:VisualElement class="left-panel">
+            <ui:Label text="EMOTES" class="gallery-title" />
+            
+            <!-- 滚动视图，当动作太多时可以上下滑动，UI Toolkit 原生支持无限滚动、惯性物理 -->
+            <ui:ScrollView name="ActionScrollView" mode="Vertical" style="flex-grow: 1;" />
+            
+            <ui:Button name="BtnBack" text="返回登录" class="action-btn" style="margin-top: 20px; color: #ff5555;" />
+        </ui:VisualElement>
+
+        <!-- 右侧透明展示区 -->
+        <ui:VisualElement class="right-panel">
+            <!-- 给当前选中的动作名称一个巨大的拉风的水印字效 -->
+            <ui:Label name="TxtCurrentAction" text="Idle" class="current-action-label" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

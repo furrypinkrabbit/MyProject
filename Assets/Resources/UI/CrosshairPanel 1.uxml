@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- 【准星UI绝对定位修复】：强制它撑满全屏、不阻挡射线、居中对齐 -->
+    <ui:VisualElement style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; picking-mode: ignore;">
+        <!-- 中间的一个小圆白点，自带白边降低背景融合概率 -->
+        <ui:VisualElement style="width: 8px; height: 8px; background-color: rgb(255, 255, 255); border-radius: 50%; opacity: 0.9; border-width: 1px; border-color: black;" />
+    </ui:VisualElement>
+</ui:UXML>

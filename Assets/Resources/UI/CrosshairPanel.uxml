@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- 无视鼠标点击穿越的准星界面 -->
+    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; picking-mode: ignore;">
+        <!-- 中间的一个小圆白点 -->
+        <ui:VisualElement style="width: 6px; height: 6px; background-color: white; border-radius: 50%;" />
+    </ui:VisualElement>
+</ui:UXML>

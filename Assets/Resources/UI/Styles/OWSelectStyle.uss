@@ -1,0 +1,107 @@
+/* 新增的插槽：统管卡片与下方的名字悬挂，居中对齐 */
+.hero-slot {
+    margin: 5px 10px;
+    align-items: center; 
+    transition-duration: 0.15s;
+}
+
+/* 缩小的纯图片卡片本体 */
+.hero-card {
+    width: 90px;
+    height: 120px;
+    background-color: rgba(30, 30, 40, 0.7);
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition-duration: 0.15s;
+}
+
+/* 悬停联动：当鼠标放到插槽上时，卡片放大并亮起白边 */
+.hero-slot:hover .hero-card {
+    scale: 1.05;
+    border-color: rgba(255, 255, 255, 0.8);
+    cursor: link;
+}
+
+/* 选中联动：卡片爆出高光橙色边框并悬浮 */
+.active-slot .hero-card {
+    border-color: #FF8800; 
+    box-shadow: 0 0 10px rgba(255, 136, 0, 0.8);
+    scale: 1.1;
+}
+
+.hero-portrait {
+    flex-grow: 1;
+    background-color: rgba(80, 80, 80, 0.3);
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* ====== 独立于卡片外部的底部名字承载区 ====== */
+.hero-name-outside {
+    margin-top: 10px; 
+    width: 100px;
+    height: 25px;
+    -unity-background-scale-mode: scale-to-fit;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5; 
+    transition-duration: 0.2s;
+}
+
+.active-slot .hero-name-outside {
+    opacity: 1;
+    scale: 1.1;
+}
+
+.fallback-text-outside {
+    color: white;
+    -unity-font-style: bold;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px black;
+}
+
+.active-slot .fallback-text-outside {
+    color: #FF8800; 
+}
+
+/* ====== 【终极修缮】右上角的超大纯文字引擎渲染 ====== */
+.huge-name-text {
+    font-size: 120px;
+    color: white;
+    /* 很多人做不出来电竞风是因为没加斜体，这个极其关键！ */
+    -unity-font-style: bold-and-italic; 
+    -unity-text-align: middle-right;
+    
+    /* 巨型字体的防白背景吞字终极绝招：超重阴影 */
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    
+    /* 不让这行大字和下方的身份图分得太开 */
+    margin-bottom: -20px; 
+}
+
+.role-image {
+    width: 150px; 
+    height: 40px; 
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* 继续按钮 */
+.confirm-btn-ow {
+    font-size: 26px;
+    -unity-font-style: bold;
+    color: white;
+    background-color: #FF8800;
+    border-width: 0;
+    padding: 15px 60px;
+    border-radius: 4px;
+    transition-duration: 0.2s;
+}
+
+.confirm-btn-ow:hover {
+    background-color: #FFAA44;
+    scale: 1.05;
+}
+.confirm-btn-ow:active {
+    scale: 0.95;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- 将这个UI严格定在左上角，且不阻挡底层任何点击事件 -->
+    <ui:VisualElement style="position: absolute; top: 50px; left: 50px; picking-mode: ignore;">
+        
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:Label text="训练靶场" style="font-size: 60px; color: white; -unity-font-style: bold-and-italic; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);" />
+        </ui:VisualElement>
+        
+        <ui:VisualElement style="flex-direction: row; align-items: center; margin-top: -10px;">
+            <ui:Label text="选择英雄" style="font-size: 40px; color: #00CCFF; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        
+        <ui:Label name="RuleNameLabel" text="[模式名称]" style="font-size: 24px; color: #CCCCCC; margin-top: 5px;" />
+        
+    </ui:VisualElement>
+</ui:UXML>

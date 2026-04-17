@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="Styles/OWSelectStyle.uss"/>
+
+    <!-- 顶层全屏 -->
+    <ui:VisualElement style="flex-grow: 1; width: 100%; height: 100%; justify-content: flex-end; padding: 50px;">
+        
+        <!-- 左上角的常驻模式宣发区 -->
+        <ui:VisualElement name="ModeHeaderArea" style="position: absolute; top: 50px; left: 50px; picking-mode: ignore;">
+            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                <ui:Label name="RuleNameHuge" text="训练靶场" style="font-size: 60px; color: white; -unity-font-style: bold-and-italic; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-top: -10px;">
+                <ui:Label text="SELECT YOUR HERO" style="font-size: 26px; color: #FF8800; -unity-font-style: bold-and-italic;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ===== 全新改版：右上角的英雄名字纯文字 + 职业图区 ===== -->
+        <ui:VisualElement style="position: absolute; top: 80px; right: 80px; align-items: flex-end;">
+            
+            <!-- 回归纯文字引擎渲染！采用极其暴力的 130px 大字并附加深重阴影 -->
+            <ui:Label name="HeroNameHugeText" text=" " class="huge-name-text" />
+            
+            <!-- 职业小标图依然保留在名字右下方做点缀 -->
+            <ui:VisualElement name="HeroRoleImageArea" class="role-image" style="margin-top: -10px;" />
+            
+        </ui:VisualElement>
+
+        <!-- 底部的居中卡片池容器 -->
+        <ui:VisualElement style="align-items: center; margin-bottom: 30px;">
+            <ui:VisualElement name="HeroGridContainer" style="flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 80%;" />
+        </ui:VisualElement>
+
+        <!-- 底部中间层 -->
+        <ui:VisualElement style="align-items: center; margin-bottom: 20px;">
+            <ui:Button name="BtnConfirm" text="继 续" class="confirm-btn-ow" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

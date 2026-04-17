@@ -1,0 +1,85 @@
+/* LoginStyle.uss - UI Toolkit 样式表 */
+.login-bg {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    background-image: resource('UI/Images/LoginBackground');
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.login-panel {
+    width: 400px;
+    padding: 30px;
+    background-color: rgba(30, 30, 30, 0.85); /* 半透明深色背景 */
+    border-radius: 15px; /* 圆角 */
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.2);
+    /* 简单的入场过渡动画准备 */
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+
+.login-title {
+    font-size: 32px;
+    color: white;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-bottom: 30px;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-label {
+    color: #cccccc;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* 覆盖默认的 TextField 样式 */
+.custom-input > .unity-base-field__input {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-width: 1px;
+    border-color: #555555;
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.custom-input:focus > .unity-base-field__input {
+    border-color: #00A2FF; /* 聚焦时的边框高亮 */
+}
+
+.login-btn {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #00A2FF;
+    color: white;
+    font-size: 18px;
+    -unity-font-style: bold;
+    border-radius: 8px;
+    border-width: 0;
+    transition-property: background-color, scale;
+    transition-duration: 0.1s;
+}
+
+.login-btn:hover {
+    background-color: #33B5FF;
+    scale: 1.02;
+}
+
+.login-btn:active {
+    background-color: #0081CC;
+    scale: 0.98;
+}
+
+.status-text {
+    color: #FF5A5A;
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    margin-top: 15px;
+    height: 20px;
+}

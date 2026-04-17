@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements">
+  <!-- 删除了上一行的 xsi:noNamespaceSchemaLocation，因为运行时根本不需要它，这样就不会报警告了 -->
+
+  <!-- 【修复点1】：这里加了 .uss 后缀，Unity就能正确识别到样式表了 -->
+  <ui:Style src="Styles/LoginStyle.uss"/>
+
+  <!-- 全屏背景容器 -->
+  <ui:VisualElement name="Background" class="login-bg">
+
+    <!-- 居中的登录面板框 -->
+    <ui:VisualElement name="PanelContainer" class="login-panel">
+
+      <ui:Label text="游戏登录" class="login-title" />
+
+      <ui:VisualElement class="input-container">
+        <ui:Label text="账号 / Username" class="input-label" />
+        <ui:TextField name="InputAccount" class="custom-input" />
+      </ui:VisualElement>
+
+      <ui:VisualElement class="input-container">
+        <ui:Label text="密码 / Password" class="input-label" />
+        <ui:TextField name="InputPassword" password="true" class="custom-input" />
+      </ui:VisualElement>
+
+      <!-- 状态提示文字 -->
+      <ui:Label name="TxtStatus" text="" class="status-text" />
+
+      <ui:Button name="BtnLogin" text="登 录" class="login-btn" />
+      <ui:Button name="BtnClose" text="退 出" class="login-btn" style="background-color: #555555; margin-top: 10px;" />
+
+    </ui:VisualElement>
+
+  </ui:VisualElement>
+</ui:UXML>
