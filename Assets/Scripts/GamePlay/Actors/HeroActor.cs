@@ -24,8 +24,6 @@ namespace GameplayFramework.Actors
         private float cameraPitch = 0f;
         private float verticalVelocity = 0f;
 
-        // ==== 【核心积木】：灵魂标识 ====
-        // 只有被玩家附身（上机）后，这具肉体的高级计算才会开始！
         public bool IsPossessed { get; private set; } = false;
 
         private void Awake()
@@ -34,34 +32,36 @@ namespace GameplayFramework.Actors
             animController = GetComponent<HeroShowcaseController>();
             healthComp = GetComponent<HealthComponent>();
 
-            var animator = GetComponent<Animator>();
-            if (animator != null) animator.applyRootMotion = false;
-
             if (firstPersonCameraObj != null) firstPersonCameraObj.SetActive(false);
         }
 
         public void OnPossess(PlayerController controller)
         {
-            IsPossessed = true; // 灵魂注入！
+            IsPossessed = true;
             if (firstPersonCameraObj != null) firstPersonCameraObj.SetActive(true);
             Transform headTrans = transform.Find("Head") ?? transform;
-            controller.CameraController.BindToActor(headTrans);
+            if (controller.CameraController != null) controller.CameraController.BindToActor(headTrans);
             Cursor.lockState = CursorLockMode.Locked;
+
+            if (animController != null) animController.ChangeState(AnimState.Idle);
         }
 
         public void OnUnpossess()
         {
-            IsPossessed = false; // 灵魂抽离，变成死物
+            IsPossessed = false;
             if (firstPersonCameraObj != null) firstPersonCameraObj.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             currentMoveInput = Vector2.zero;
-            if (animController != null) animController.ChangeState(AnimState.Idle);
+
+            if (animController != null) animController.ChangeState(AnimState.AnimNone);
         }
 
         public void OnMoveInput(Vector2 direction) { currentMoveInput = direction; }
 
         public void OnLookInput(Vector2 delta)
         {
+            if (!IsPossessed) return;
+
             float yaw = delta.x * lookSensitivity;
             transform.Rotate(0, yaw, 0);
 
@@ -75,26 +75,25 @@ namespace GameplayFramework.Actors
 
         public void OnCombatCommand(CombatInputAction action, bool isPressed)
         {
-            if (!isPressed || !IsPossessed) return;
+            if (!isPressed || !IsPossessed || animController == null) return;
 
             switch (action)
             {
                 case CombatInputAction.PrimaryFire:
-                    animController.PlayAction("Shoot");
+                    animController.TriggerActionEvent("PrimaryFire");
                     break;
                 case CombatInputAction.Melee:
-                    animController.PlayAction("Melee");
+                    animController.TriggerActionEvent("Melee");
                     break;
             }
         }
 
         private void Update()
         {
-            // 【楚河汉界】：如果没人附身（比如在选人界面展台罚站），不要执行任何肉体判定逻辑！
             if (!IsPossessed) return;
 
             if (cc == null || animController == null) return;
-            if (healthComp.isDead) return;
+            if (healthComp != null && healthComp.isDead) return;
 
             if (cc.isGrounded && verticalVelocity < 0) verticalVelocity = -2f;
             verticalVelocity -= gravity * Time.deltaTime;
@@ -117,7 +116,7 @@ namespace GameplayFramework.Actors
 
         public void OnActionPressed(int actionId)
         {
-            throw new System.NotImplementedException();
+            // 旧接口实现
         }
     }
 }

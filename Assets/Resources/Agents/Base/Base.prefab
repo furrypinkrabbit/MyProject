@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8223609726392349334}
   - component: {fileID: 5253791157506674656}
   - component: {fileID: 3926387893471072842}
+  - component: {fileID: 9189224880207118453}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -50,35 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243436ae4de09b84abb54386f810b117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configProfile: {fileID: 11400000, guid: b6be2e9177726a1419a101ba9bc7987f, type: 2}
   heroAnimator: {fileID: 0}
-  animationClips:
-  - {fileID: 426716804575868071, guid: b3146b291aa8c8b43a9c3c6181528153, type: 3}
-  - {fileID: -2848545796736985332, guid: 4b352fceee75e0d45bd29547f498f9af, type: 3}
-  - {fileID: 8456185703765157504, guid: d98044a64183bda4990be8eceb00a482, type: 3}
-  - {fileID: -3119484255079415707, guid: cac4c62d88caec6468453ff6cb391714, type: 3}
-  - {fileID: -2728901303777583439, guid: ddc7a3e7c6862d64e8471585171a31ff, type: 3}
-  - {fileID: 4930656767807149202, guid: 96af4a739d19ae047be3f828e499176e, type: 3}
-  - {fileID: 4128667500638444665, guid: f262f2ae1630cc44e9fff0a776ca20b0, type: 3}
-  - {fileID: -413915583566188894, guid: 3c02b156397585a4d838c15b89b4c23b, type: 3}
-  - {fileID: 6769801902334409569, guid: 12a9fda081231224b8bd4862ebac6ec4, type: 3}
-  - {fileID: -2589665871518202692, guid: 4c7775ba07e93b8498900f83498743e6, type: 3}
-  - {fileID: 5024436281422990708, guid: 36aa06a6d500a964499920069816d748, type: 3}
-  - {fileID: -1072464929596767778, guid: ed97a28b7e4cccd4c8044cc387665a47, type: 3}
-  - {fileID: -9201828364495813443, guid: 2bfc133adbf0beb4983f200a3edf77a9, type: 3}
-  - {fileID: 4369335640847186979, guid: 731d18e13eca1b244b04166251e95aef, type: 3}
-  - {fileID: -1114125292390415714, guid: ef5e4766a900c6b4db00c7cc2ef47751, type: 3}
-  - {fileID: -8524078776891291187, guid: eadc48ef6bcaab5469c9f15c61bd83db, type: 3}
-  - {fileID: -8263657116796353058, guid: 78d68915d8bb34047b5702bdd98c0dc3, type: 3}
-  - {fileID: 3812546017969097313, guid: 1e43a383ea886d746913b8b5e8ac27a7, type: 3}
-  - {fileID: 5929533664354034034, guid: 34bca8af4450bc4448045f98d2cf3c70, type: 3}
-  - {fileID: 4167775359571186104, guid: f98160ecdb704034aaaa385899dbe695, type: 3}
-  - {fileID: -5688743124508784422, guid: 3eb8eec17372b574f89844a4da0b6073, type: 3}
-  - {fileID: -6339999858669016031, guid: 1c07f4771c2e99243a9def17b1a55cb9, type: 3}
-  - {fileID: -5375810258477399475, guid: 44ed449b5b56ed446a67e63f2b348c08, type: 3}
-  - {fileID: 6735416948213278490, guid: 1b87ee2c1bbaa60428cf24b7a0cf4c49, type: 3}
-  - {fileID: -1072464929596767778, guid: 46c1617ed02a20042813e70eca92a20e, type: 3}
   transitionSpeed: 5
   isUIPreviewMode: 0
+  currentState: 0
 --- !u!95 &3526649209474393260
 Animator:
   serializedVersion: 7
@@ -188,6 +165,21 @@ MonoBehaviour:
   m_DefaultActionMap: playerMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &9189224880207118453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269769551319227655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae0fc9679e03da499e86eb7c89e3e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 200
+  currentHealth: 0
+  isDead: 0
 --- !u!1 &7090527263865568587
 GameObject:
   m_ObjectHideFlags: 0

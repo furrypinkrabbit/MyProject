@@ -12,6 +12,7 @@ namespace UIFramework.Constants
         public const string HeroGallery = "HeroGalleryPanel";
         public const string CharacterSelect = "CharacterSelectPanel";
         public const string AimPanel = "CrosshairPanel";
+        public const string ControlPanel = "SettingsPanel";
 
         // 这里可以继续按模块拓展常量
     }

@@ -1,40 +1,31 @@
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
-using System.Collections.Generic;
-using GameplayFramework.Manager;
+using GameplayFramework.Data;
 
 namespace UIFramework.Game
 {
-    // 利用枚举规范底层动作，远离字符串拼写错误！
-    public enum AnimState { Idle, WalkForward, WalkBackward }
+    public enum AnimState { AnimNone, Idle, WalkForward, WalkBackward, ActionPlaying }
 
     public class HeroShowcaseController : MonoBehaviour
     {
+        [Header("动作控制大脑：把配好的资产档案拖给它！")]
+        public AnimEventProfile configProfile;
         public Animator heroAnimator;
-        public string characterAnimFolder = "Agents/Base/Anim";
-
-        public List<AnimationClip> animationClips = new List<AnimationClip>();
         public float transitionSpeed = 5f;
-        [HideInInspector] public bool isUIPreviewMode = false;
+
+        [Header("是否是选人展台模式（UI不附身）")]
+        public bool isUIPreviewMode = false;
+        private float uiIdleTimer = 0f;
 
         private PlayableGraph graph;
-        private AnimationMixerPlayable locomotionMixer; // 负责腿部/全身走路移动
+        private AnimationMixerPlayable locomotionMixer;
         private AnimationClipPlayable currentPlayable;
         private AnimationClipPlayable oldPlayable;
 
-        private AnimState currentState = AnimState.Idle; // 当前状态缓存，防止每帧刷新
+        public AnimState currentState = AnimState.AnimNone;
         private bool isCrossfading = false;
         private float crossfadeProgress = 0f;
-
-        private void Awake()
-        {
-            if (!string.IsNullOrEmpty(characterAnimFolder))
-            {
-                var clips = ResourceManager.Instance.LoadAll<AnimationClip>(characterAnimFolder);
-                foreach (var c in clips) if (!animationClips.Contains(c)) animationClips.Add(c);
-            }
-        }
 
         private void Start()
         {
@@ -44,56 +35,76 @@ namespace UIFramework.Game
             graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
 
             var output = AnimationPlayableOutput.Create(graph, "Output", heroAnimator);
-
-            // 以后如果有 Avatar Mask 控制上半身开火，就把它改成 AnimationLayerMixerPlayable
             locomotionMixer = AnimationMixerPlayable.Create(graph, 2);
             output.SetSourcePlayable(locomotionMixer);
 
             graph.Play();
 
-            if (isUIPreviewMode && animationClips.Count > 0)
-                PlayAnimRaw(animationClips[0].name);
+            if (isUIPreviewMode)
+            {
+                TriggerActionEvent("show");
+            }
+            else
+            {
+                ChangeState(AnimState.Idle);
+            }
         }
 
-        // ====== 全新接口：提供给外部绝对安全的枚举流 ======
         public void ChangeState(AnimState newState)
         {
-            // 防止一直调用导致重播
-            if (currentState == newState) return;
-            currentState = newState;
-
-            string targetClip = "idle";
-            switch (newState)
+            if (newState == AnimState.AnimNone)
             {
-                case AnimState.Idle: targetClip = "idle"; break;
-                case AnimState.WalkForward: targetClip = "walk_f"; break;
-                case AnimState.WalkBackward: targetClip = "walk_b"; break;
+                currentState = AnimState.AnimNone;
+                return;
             }
 
-            PlayAnimRegex(targetClip);
+            if (currentState == AnimState.ActionPlaying) return;
+            if (currentState == newState) return;
+
+            currentState = newState;
+            if (configProfile == null) return;
+
+            AnimationClip targetClip = configProfile.idleClip;
+            switch (newState)
+            {
+                case AnimState.Idle: targetClip = configProfile.idleClip; break;
+                case AnimState.WalkForward: targetClip = configProfile.walkForwardClip; break;
+                case AnimState.WalkBackward: targetClip = configProfile.walkBackwardClip; break;
+            }
+
+            if (targetClip != null) PlayAnimRaw(targetClip);
         }
 
-        // 强行盖过当前移动动作的“动作类技能” (比如开火、近战)
-        public void PlayAction(string actionKeyword)
+        public void TriggerActionEvent(string eventName)
         {
-            // 未来这里会接入 Avatar Mask 走上半身轨道，本期先强行打断全身
-            PlayAnimRegex(actionKeyword);
+            if (configProfile == null) return;
 
-            // 为了让动作播完能恢复，重置底层兵态标识，逼迫下一帧的移动指令重新拿回控制权
-            currentState = AnimState.WalkBackward; // 随便给个不一样的，引起重判定
+            AnimationClip targetClip = configProfile.GetClipByEvent(eventName);
+            if (targetClip == null)
+            {
+                Debug.LogWarning($"[Anim Event] 当前英雄的档案里没有配置事件：{eventName}");
+                return;
+            }
+
+            currentState = AnimState.ActionPlaying;
+            PlayAnimRaw(targetClip);
+
+            float duration = (float)targetClip.length;
+            CancelInvoke(nameof(ResetActionState));
+            Invoke(nameof(ResetActionState), duration - 0.1f);
         }
 
-        // 模糊搜索：策划不管命名叫 Base_Fight_Idle 还是 idle_a，都能找到
-        private void PlayAnimRegex(string keyword)
+        private void ResetActionState()
         {
-            keyword = keyword.ToLower();
-            var clip = animationClips.Find(c => c.name.ToLower().Contains(keyword));
-            if (clip != null) PlayAnimRaw(clip.name);
+            if (currentState == AnimState.ActionPlaying)
+            {
+                currentState = AnimState.AnimNone;
+                uiIdleTimer = 0f;
+            }
         }
 
-        private void PlayAnimRaw(string clipName)
+        private void PlayAnimRaw(AnimationClip clip)
         {
-            var clip = animationClips.Find(c => c != null && c.name == clipName);
             if (clip == null || !graph.IsValid()) return;
 
             var newPlayable = AnimationClipPlayable.Create(graph, clip);
@@ -123,6 +134,16 @@ namespace UIFramework.Game
 
         private void Update()
         {
+            if (isUIPreviewMode && currentState != AnimState.ActionPlaying)
+            {
+                uiIdleTimer += Time.deltaTime;
+                if (uiIdleTimer >= 5f)
+                {
+                    TriggerActionEvent("show");
+                    uiIdleTimer = 0f;
+                }
+            }
+
             if (!graph.IsValid() || !isCrossfading) return;
             crossfadeProgress += Time.deltaTime * transitionSpeed;
             if (crossfadeProgress >= 1f)
@@ -143,10 +164,12 @@ namespace UIFramework.Game
             }
         }
 
+        // ================= 修复问题 2 =================
+        // 为了防止那个远古的选人画廊(BattleManager.cs)因为重写找不到方法炸锅，强加这个向下兼容的旧口子！
         public void PlayAnim(string clipName)
         {
-            // 让旧的选人界面的强播动作系统，直接嫁接到我们新的半身打断管道里！
-            PlayAction(clipName);
+            // 旧口子现在接管到新的事件大网上去！
+            TriggerActionEvent(clipName);
         }
 
         private void OnDestroy() { if (graph.IsValid()) graph.Destroy(); }

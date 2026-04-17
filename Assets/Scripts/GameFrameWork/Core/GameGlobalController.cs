@@ -3,44 +3,44 @@ using UIFramework.Events;
 
 namespace GameplayFramework.Core
 {
-    /// <summary>
-    /// 全局系统管家：挂在一个常驻 GameObject 上，由于本框架解耦，它负责随时通过 ESC 唤起设置面板！
-    /// </summary>
     public class GameGlobalController : MonoBehaviour
     {
-        private bool isSettingsOpen = false;
+        private bool isControlPanelOpen = false;
 
         private void Start()
         {
             DontDestroyOnLoad(this.gameObject);
-            UIEventCenter.AddListener("ToggleSettingsPanel", ToggleSettings);
+            UIEventCenter.AddListener("ToggleControlPanel", ToggleControlMenu);
         }
 
         private void Update()
         {
-            // 按下 ESC 强制打开/关闭控制中心
+            // 现在按 ESC 第一个拦截拉起的是 ControlPanel (包含返回、设置、退出)
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ToggleSettings();
+                ToggleControlMenu();
             }
         }
 
-        private void ToggleSettings()
+        private void ToggleControlMenu()
         {
-            isSettingsOpen = !isSettingsOpen;
-            if (isSettingsOpen)
+            isControlPanelOpen = !isControlPanelOpen;
+
+            // 下方如果连带打开着 SettingsPanel，也要强制关掉保持清爽
+            if (isControlPanelOpen)
             {
-                UIFramework.Core.UIManager.Instance.OpenPanel<GameplayFramework.UIFrame.SettingsPanel>("SettingsPanel", UIFramework.Core.UILayer.System);
+                UIFramework.Core.UIManager.Instance.OpenPanel<GameplayFramework.UIFrame.ControlPanel>("ControlPanel", UIFramework.Core.UILayer.System);
             }
             else
             {
                 UIFramework.Core.UIManager.Instance.ClosePanel("SettingsPanel");
+                UIFramework.Core.UIManager.Instance.ClosePanel("ControlPanel");
             }
         }
 
         private void OnDestroy()
         {
-            UIEventCenter.RemoveListener("ToggleSettingsPanel", ToggleSettings);
+            UIEventCenter.RemoveListener("ToggleControlPanel", ToggleControlMenu);
         }
     }
 }
