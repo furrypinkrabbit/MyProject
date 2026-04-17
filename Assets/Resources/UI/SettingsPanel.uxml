@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <ui:Style src="Styles/SettingsStyle.uss"/>
-    
-    <ui:VisualElement style="flex-grow: 1; background-color: rgba(10, 10, 15, 0.95); flex-direction: row;">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- Overwatch 风格：全屏深邃渐变背景，极简扁平化排版 -->
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(25, 26, 30, 0.98); flex-direction: row; padding: 0;">
         
-        <ui:VisualElement style="width: 250px; border-right-width: 1px; border-right-color: rgba(255, 255, 255, 0.1);">
-            <ui:Label text="控制面板 (CONTROLS)" style="color: white; font-size: 24px; -unity-font-style: bold-and-italic; margin: 30px 20px 20px 20px;" />
+        <!-- 左侧菜单栏 (英雄列表)：极简无边框，选中项带橙色加粗 -->
+        <ui:VisualElement style="width: 320px; background-color: rgba(18, 19, 22, 1); border-right-width: 0px; padding-top: 60px;">
+            <ui:Label text="CONTROLS" style="color: #FF8F00; font-size: 38px; -unity-font-style: bold-and-italic; margin-left: 40px; margin-bottom: 5px; letter-spacing: 5px;" />
+            <ui:Label text="操作设置" style="color: #999999; font-size: 16px; margin-left: 40px; margin-bottom: 50px; letter-spacing: 2px;" />
             <ui:ScrollView name="HeroListContainer" style="flex-grow: 1;" />
         </ui:VisualElement>
 
-        <ui:VisualElement style="flex-grow: 1; padding: 30px;">
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <ui:Label name="CurrentTargetLabel" text="正在编辑：..." style="color: #FF8800; font-size: 20px; -unity-font-style: bold;" />
+        <!-- 右侧核心工作区 -->
+        <ui:ScrollView style="flex-grow: 1; padding: 60px 80px;">
+            
+            <!-- 顶部头：当前选中的对象信息与基础操作 -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; border-bottom-width: 2px; border-bottom-color: rgba(255,143,0,0.8); padding-bottom: 20px; margin-bottom: 40px;">
+                <ui:Label name="CurrentTargetLabel" text="ALL HEROES" style="color: white; font-size: 32px; -unity-font-style: bold; letter-spacing: 2px; text-transform: uppercase;" />
                 
                 <ui:VisualElement style="flex-direction: row;">
-                    <ui:Button name="BtnResetConfig" text="恢复重置" style="background-color: transparent; color: #BBBBBB; border-color: #555555; padding: 10px; margin-right: 20px; border-radius: 4px;" />
-                    <ui:Button name="BtnClose" text="返回游戏 / 大厅" style="background-color: #FF8800; color: white; -unity-font-style: bold; border-width: 0; padding: 10px 20px; border-radius: 4px;" />
+                    <ui:Button name="BtnResetConfig" text="RESTORE DEFAULTS" style="padding: 12px 30px; background-color: transparent; border-width: 0px; color: #888888; font-size: 14px; -unity-font-style: bold; margin-right: 15px; transition-duration: 0.1s;" />
+                    <ui:Button name="BtnClose" text="BACK" style="padding: 12px 40px; background-color: #EEEEEE; border-width: 0; color: #111111; -unity-font-style: bold; font-size: 16px; transition-duration: 0.1s;" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <ui:VisualElement style="background-color: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-                <ui:Label text="鼠标灵敏度" style="color: white; font-size: 16px; margin-bottom: 10px;" />
-                <ui:Slider name="SensSlider" low-value="0.01" high-value="1.0" />
+            <!-- 第一区域：鼠标灵敏度 (极其扁平的OW质感) -->
+            <ui:Label text="MOUSE" style="color: #E2E2E2; font-size: 20px; -unity-font-style: bold; margin-bottom: 20px; margin-top: 10px;" />
+            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgba(255,255,255,0.03); padding: 15px 30px; border-radius: 4px; margin-bottom: 50px;">
+                <ui:Label text="Sensitivity" style="color: #AAAAAA; font-size: 16px; width: 250px;" />
+                <ui:Slider name="SensSlider" low-value="0.01" high-value="100.0" style="flex-grow: 1;" />
             </ui:VisualElement>
 
-            <ui:ScrollView name="ActionBindsContainer" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.02); border-radius: 6px;" />
-        </ui:VisualElement>
+            <!-- 第二区域：按键绑定 (键值对齐的纯净列表) -->
+            <ui:Label text="WEAPONS &amp; ABILITIES" style="color: #E2E2E2; font-size: 20px; -unity-font-style: bold; margin-bottom: 20px;" />
+            <ui:VisualElement name="ActionBindsContainer" style="flex-grow: 1;" />
 
-        <!-- ======== 新增防手贱遮罩与改键提示 ======== -->
-        <ui:VisualElement name="RebindOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center; display: none;">
-            <ui:Label name="RebindPromptText" text="正在倾听新的按键..." style="color: #FF8800; font-size: 32px; -unity-text-align: middle-center; -unity-font-style: bold;" />
+        </ui:ScrollView>
+        
+        <!-- 黑屏防手贱截击层：修改为极简OW风格，去掉了粗糙的框 -->
+        <ui:VisualElement name="RebindOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(18, 19, 22, 0.95); justify-content: center; align-items: center; display: none;">
+            <ui:Label text="PRESS ANY KEY..." style="color: white; font-size: 48px; -unity-font-style: bold-and-italic; letter-spacing: 5px; margin-bottom: 20px;" />
+            <ui:Label name="RebindPromptText" text="Awaiting input for [ Primary Fire ]" style="color: #FF8F00; font-size: 18px; -unity-text-align: middle-center; letter-spacing: 2px;" />
+            <ui:Label text="Press ESC to cancel" style="color: #666666; font-size: 14px; margin-top: 40px;" />
         </ui:VisualElement>
 
     </ui:VisualElement>

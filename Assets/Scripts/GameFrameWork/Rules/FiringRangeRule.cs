@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameplayFramework.Core;
 using GameplayFramework.CameraSys;
+using UIFramework.Constants;
 
 namespace GameplayFramework.Rules
 {
@@ -34,8 +35,8 @@ namespace GameplayFramework.Rules
 
         public override List<string> GetModeSpecificUIPanels()
         {
-            // 【移除左上角字样】：这里只留下十字准星UI，不在正式游戏里铺上那行名字了，因为咱们前面已经合并了
-            return new List<string> { "CrosshairPanel" };
+
+            return new List<string> { "CrosshairPanel",UINameConst.ControlPanel };
         }
 
         public override void AssignTeam(PlayerController pc)

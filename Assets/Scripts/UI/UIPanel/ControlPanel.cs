@@ -19,45 +19,43 @@ namespace GameplayFramework.UIFrame
 
         protected override void RegisterEvents()
         {
-            btnResume.clicked += () => UIFramework.Events.UIEventCenter.Trigger("ToggleControlPanel");
-
-            btnSettings.clicked += () =>
+            // 点击返回战局，关闭自己
+            btnResume.clicked += () => 
             {
-                // ע������Ҫ�� SettingsPanel ��ȥ
+                UIFramework.Core.UIManager.Instance.ClosePanel("ControlPanel");
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.visible = false;
+                Time.timeScale = 1;
+            };
+
+            // 点击设置：【极其重要】必须先关掉自己，再打开Settings，绝对不能挤在一起！
+            btnSettings.clicked += () => 
+            {
+                UIFramework.Core.UIManager.Instance.ClosePanel("ControlPanel");
                 UIFramework.Core.UIManager.Instance.OpenPanel<SettingsPanel>("SettingsPanel", UIFramework.Core.UILayer.System);
             };
 
-            btnQuit.clicked += () =>
+            btnQuit.clicked += () => 
             {
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
-#else
+                #else
                 Application.Quit();
-#endif
+                #endif
             };
         }
 
-        public override void OnShow()
+        public override void OnShow() 
         {
             base.OnShow();
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
-            Time.timeScale = 0;
+            Time.timeScale = 0; 
         }
 
         public override void OnHide()
         {
             base.OnHide();
-            // ʹ�� UIManager �����ĸ߼���ѯ��
-            var settingsPanel = UIFramework.Core.UIManager.Instance.GetPanel("SettingsPanel");
-            bool isSettingsOpen = settingsPanel != null && settingsPanel.RootElement != null && settingsPanel.RootElement.style.display == DisplayStyle.Flex;
-
-            if (!isSettingsOpen)
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                UnityEngine.Cursor.visible = false;
-                Time.timeScale = 1;
-            }
         }
     }
 }

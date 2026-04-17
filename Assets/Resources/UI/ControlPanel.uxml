@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <!-- 主菜单全屏半透磨砂背景，代表暂停态 -->
-    <ui:VisualElement style="flex-grow: 1; background-color: rgba(15, 20, 25, 0.8); justify-content: center; align-items: center;">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(10, 10, 15, 0.85); justify-content: center; align-items: center;">
         
-        <!-- 左侧的一级主选单 -->
-        <ui:VisualElement style="width: 350px; background-color: rgba(0, 0, 0, 0.6); padding: 40px; border-radius: 8px; border-left-width: 5px; border-left-color: #FF8800;">
-            <ui:Label text="战局核心 (PAUSED)" style="color: white; font-size: 28px; -unity-font-style: bold-and-italic; margin-bottom: 40px; text-shadow: 2px 2px 5px black;" />
+        <!-- 中央的核心操作板 -->
+        <ui:VisualElement style="width: 380px; padding: 40px; background-color: rgba(20, 20, 25, 0.95); border-radius: 12px; border-top-width: 5px; border-top-color: #FF6600;">
+            <ui:Label text="游戏暂停 (PAUSED)" style="color: #FF6600; font-size: 26px; -unity-font-style: bold; -unity-text-align: middle-center; margin-bottom: 40px; letter-spacing: 2px;" />
             
-            <ui:Button name="BtnResume" text="返回前线" style="font-size: 22px; color: white; background-color: rgba(255,136,0,0.8); border-width: 0; padding: 15px; margin-bottom: 20px; transition-duration: 0.1s;" />
+            <ui:Button name="BtnResume" text="RESUME / 返回战局" style="margin-bottom: 20px; padding: 18px; background-color: rgba(255,102,0,0.15); border-color: #FF6600; border-width: 1px; border-radius: 8px; color: white; font-size: 18px; -unity-font-style: bold; transition-duration: 0.1s;" />
             
-            <!-- 设置按钮，点它才会呼出专门调按键的子级大面板！ -->
-            <ui:Button name="BtnSettings" text="控制面板 (设置)" style="font-size: 20px; color: #DDDDDD; background-color: transparent; border-color: rgba(255,255,255,0.3); border-width: 2px; padding: 15px; margin-bottom: 20px;" />
+            <ui:Button name="BtnSettings" text="SETTINGS / 调校面板" style="margin-bottom: 20px; padding: 18px; background-color: rgba(255,255,255,0.05); border-color: transparent; border-width: 0px; border-radius: 8px; color: #CCCCCC; font-size: 18px; transition-duration: 0.1s;" />
             
-            <ui:Button name="BtnQuit" text="撤离行动 (退出)" style="font-size: 20px; color: #AA4444; background-color: transparent; border-width: 0; padding: 15px;" />
+            <ui:Button name="BtnQuit" text="QUIT / 撤离行动" style="padding: 18px; background-color: rgba(255,0,0,0.1); border-color: rgba(255,0,0,0.4); border-width: 1px; border-radius: 8px; color: #FF5555; font-size: 18px; transition-duration: 0.1s;" />
         </ui:VisualElement>
 
     </ui:VisualElement>
